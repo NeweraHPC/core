@@ -7,4 +7,6 @@ neweraHPC_server_LDADD   = src/libneweraHPC_core.la -ldl -lpthread
 library_includedir      = $(includedir)/neweraHPC
 library_include_HEADERS = include/*.h
 
-dist_doc_DATA = README
+dist_doc_DATA = README.md
+
+ACLOCAL_AMFLAGS = -I m4

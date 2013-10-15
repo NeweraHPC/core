@@ -1,10 +1,11 @@
 AC_INIT(neweraHPC_core, 2.90, varunmittal91@gmail.com)
 
-AM_INIT_AUTOMAKE([-Wall no-define])
+AM_INIT_AUTOMAKE([foreign -Wall no-define])
 
 AM_SILENT_RULES([yes])
 AM_CONFIG_HEADER(config.h)
 
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([neweraHPC_server.cpp])
 
 AC_PROG_CXX
