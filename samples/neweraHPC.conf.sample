@@ -1,0 +1,7 @@
+# General options
+log-file = /var/log/neweraHPC/server.log
+pid-file = /var/run/neweraHPC/server.pid
+verbose = debug6
+
+# Number of Workers, Default 1
+workers = 4

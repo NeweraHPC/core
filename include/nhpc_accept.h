@@ -20,8 +20,6 @@
 #ifndef _NHPC_ACCEPT_H_
 #define _NHPC_ACCEPT_H_
 
-using namespace std;
-
 void nhpc_accept_event(nhpc_event_t *ev);
 
 static inline void nhpc_accept_free_connection(nhpc_connection_t *c) {

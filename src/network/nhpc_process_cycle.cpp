@@ -17,22 +17,6 @@
  *	along with NeweraHPC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _NEWERAHPC_H_
-#define _NEWERAHPC_H_
+nhpc_process_cycle_t *nhpc_process_init(nhpc_config_t *config, nhpc_pool_t *pool, const char *host_addr, const char *host_port) {
 
-#include "nhpc_general.h"
-#include "nhpc_network.h"
-
-extern nhpc_pool_t *main_pool;
-
-static nhpc_status_t neweraHPC_init(int argc, char **argv) {
-   main_pool = nhpc_create_pool(4);
-   if(!main_pool)
-      return NHPC_FAIL;
-   
-   //nhpc_init_config(argc, argv);
-   
-   return NHPC_SUCCESS;
 }
-
-#endif

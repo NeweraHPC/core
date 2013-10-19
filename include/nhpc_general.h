@@ -34,4 +34,6 @@
 #include "nhpc_buffer.h"
 #include "nhpc_file.h"
 
+typedef nhpc_config_s nhpc_config_t;
+
 #endif

@@ -29,6 +29,10 @@ struct nhpc_str_t {
 #define nhpc_str_set(str, text)    (str)->data = (u_char *)text; (str)->len = strlen(text)
 #define nhpc_str_init(text)        {(u_char *)text, nhpc_strlen((u_char *)text)}
 
+#define nhpc_strlen(s)  strlen((const char *)s)
+
+static nhpc_str_t nhpc_str_empty = nhpc_str_init("\0");
+
 struct nhpc_key_pair_t {
    char  *key;
    char  *value;
@@ -52,8 +56,6 @@ char *nhpc_substr(char *dst, char *src, int p1, int p2);
 
 #define nhpc_strconcat(...) nhpc_strconcat_va("", ##__VA_ARGS__, NULL)
 char *nhpc_strconcat_va(const char *fmt, ...);
-
-#define nhpc_strlen(s)  strlen((const char *)s)
 
 struct nhpc_str_list_data_t {
    nhpc_str_t   *strings;

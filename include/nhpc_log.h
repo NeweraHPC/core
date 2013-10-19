@@ -41,7 +41,7 @@ void nhpc_log_debug(const char *fmt, ...);
 
 #define _nhpc_log_debug(level, fmt, arg1, arg2, arg3, arg4, arg5, arg6) \
    if(log_level & level)						\
-      nhpc_log_debug(fmt, arg1, arg2, arg3, arg4, arg5, arg6)
+      nhpc_log_debug(fmt, arg1, arg2, arg3, arg4, arg5, arg6)           
 
 #define nhpc_log_debug0(level, fmt, arg1) \
    _nhpc_log_debug(level, fmt, arg1, NULL, NULL, NULL, NULL, NULL)

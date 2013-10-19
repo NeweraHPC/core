@@ -1,0 +1,30 @@
+# Compiled Sources #
+####################
+*.lo
+*la
+
+# GNU Build Files #
+###################
+Makefile
+Makefile.in
+.libs
+.deps
+aclocal.m4
+autom4te.cache
+config.h
+config.h.in
+config.status
+config.sub
+config.guess
+configure
+depcomp
+install-sh
+libtool
+ltmain.sh
+missing
+stamp-h1
+
+# Main server executable #
+# TODO: Move this executable to bin directory #
+###############################################
+neweraHPC_server

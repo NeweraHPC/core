@@ -32,6 +32,10 @@ int main(int argc, char **argv)
    nhpc_status_t nrv;
    
    neweraHPC_init(argc, argv);
+   
+   nhpc_config_t *main_config = nhpc_config_init(argc, argv);
+   
+   /*
    nhpc_init_network();
    nhpc_init_http();
    if((nrv = nhpc_create_server("0.0.0.0", "8080")) != NHPC_SUCCESS)
@@ -41,4 +45,5 @@ int main(int argc, char **argv)
       sleep(1);
 
    pthread_t tid;   
+    */
 }

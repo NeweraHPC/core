@@ -31,6 +31,8 @@ typedef struct nhpc_worker_pool_s    nhpc_worker_pool_t;
 typedef struct nhpc_http_request_s   nhpc_http_request_t;
 typedef struct nhpc_http_status_s    nhpc_http_status_t;
 
+typedef struct nhpc_process_cycle_t  nhpc_process;
+
 typedef void (*nhpc_event_handler_ptr)(nhpc_event_t *ev);
 typedef void (*nhpc_connection_handler_ptr)(nhpc_connection_t *c);
 
@@ -46,5 +48,6 @@ typedef void (*nhpc_connection_handler_ptr)(nhpc_connection_t *c);
 #include "nhpc_event.h"
 #include "nhpc_worker.h"
 #include "nhpc_accept.h"
+#include "nhpc_process_cycle.h"
 
 #endif
