@@ -41,17 +41,20 @@ int nhpc_config_read_file(nhpc_config_t **config, nhpc_str_t *config_file_path) 
    
    while( (line_str = fgets(buffer, 100, fp)) ) {
       line_no++;      
+      
       if( strlen(line_str) == 1 )
 	 continue;
-      else if( strlen(line_str) == 99 ) {
-	 nhpc_log_error("ERROR: Config line, exceeds 100 character at line number %i\n", line_no);
-	 exit(1);
-      }
+      else if( strlen(line_str) == 99 )
+	 return NHPC_FAIL;
+
+      while( *line_str == ' ' )
+	 line_str++;
+
+      if( *line_str == '#' )
+	 continue;
       
       {
 	 char *opt_str = line_str;
-	 while( *opt_str == ' ' )
-	    opt_str++;
 	 
 	 int n = 0;
 	 while( *opt_str != ' ' && *opt_str != '=' && *opt_str != '\0' && *opt_str != '\n' && *opt_str != '\r' ) {
@@ -94,6 +97,8 @@ int nhpc_config_read_file(nhpc_config_t **config, nhpc_str_t *config_file_path) 
 	 }
       }
    }
+   
+   return NHPC_FAIL;
 }
 
 nhpc_config_t *nhpc_config_init(int argc, char **argv) {

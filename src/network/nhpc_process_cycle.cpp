@@ -18,5 +18,5 @@
  */
 
 nhpc_process_cycle_t *nhpc_process_init(nhpc_config_t *config, nhpc_pool_t *pool, const char *host_addr, const char *host_port) {
-
+   
 }

@@ -23,10 +23,6 @@
 
 using namespace std;
 
-void *producer(void *data) {
-   
-}
-
 int main(int argc, char **argv)
 {
    nhpc_status_t nrv;
@@ -34,6 +30,16 @@ int main(int argc, char **argv)
    neweraHPC_init(argc, argv);
    
    nhpc_config_t *main_config = nhpc_config_init(argc, argv);
+   if( !main_config )
+      return 1;
+   if( nhpc_init_threads(main_config) != NHPC_SUCCESS )
+      return 1;
+   if( nhpc_init_workers(main_config) != NHPC_SUCCESS )
+      return 1;
+   
+   nhpc_listening_t *listener;
+   if( nhpc_create_listening_server(&listener, main_config, "localhost", "8080") != NHPC_SUCCESS )
+      return 1;
    
    /*
    nhpc_init_network();

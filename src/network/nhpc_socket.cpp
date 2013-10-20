@@ -42,12 +42,13 @@ nhpc_status_t nhpc_create_socket(nhpc_socket_t *s, int family, int type, int pro
 nhpc_status_t nhpc_bind_socket(nhpc_socket_t *socket, const char *host_addr, const char *host_port)
 {
    struct sockaddr_in sa;
+   memset(&sa, 0, sizeof( sockaddr_in ));
    
    sa.sin_family = AF_INET; 
    sa.sin_port   = htons(atoi(host_port)); 
    inet_aton(host_addr, &sa.sin_addr);
    
-   if(bind(socket->fd, (struct sockaddr *)&sa, sizeof(sockaddr)) < 0)
+   if( bind(socket->fd, (struct sockaddr *)&sa, sizeof(sockaddr)) < 0 )
       return errno;
    
    return NHPC_SUCCESS;

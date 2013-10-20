@@ -157,19 +157,24 @@ nhpc_status_t nhpc_event_kqueue_process_changes(nhpc_listening_t *ls) {
    }
 }
 
-nhpc_status_t nhpc_event_kqueue_init(nhpc_listening_t *ls) {
-   if((kq = kqueue()) == -1)
+nhpc_status_t nhpc_event_kqueue_init() {
+   if( (kq = kqueue()) == -1 )
       return errno;
    
-   maxevents  = ls->nconnections + 1;
+   maxevents  = 512;
    nevents    = maxevents;
    nchanges   = 0;
-   changelist = (struct kevent *)nhpc_alloc(sizeof(struct kevent) * maxevents);
-   eventlist  = (struct kevent *)nhpc_alloc(sizeof(struct kevent) * maxevents);
+   changelist = ( struct kevent * )nhpc_calloc(sizeof(struct kevent) * maxevents);
+   eventlist  = ( struct kevent * )nhpc_calloc(sizeof(struct kevent) * maxevents);
    
    if(!changelist) 
       return NHPC_FAIL;
    
+   pthread_mutex_init(&mutex, NULL);
+   
+   return NHPC_SUCCESS;
+
+   /*
    nhpc_event_t *ev = &ls->events[0];
    ev->accept       = 1;
    ev->active       = 1;
@@ -184,10 +189,7 @@ nhpc_status_t nhpc_event_kqueue_init(nhpc_listening_t *ls) {
    kev->udata     = ev;
    nchanges++;
    nhpc_add_posted_event(ev);
-   
-   pthread_mutex_init(&mutex, NULL);
-   
-   return NHPC_SUCCESS;
+    */
 }
 
 void nhpc_event_kqueue_done(nhpc_listening_t *ls) {

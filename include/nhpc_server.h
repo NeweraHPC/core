@@ -22,7 +22,9 @@
 
 #include "neweraHPC.h"
 
-nhpc_status_t nhpc_init_network();
+nhpc_status_t nhpc_create_listening_server(nhpc_listening_t **listener, nhpc_config_t *config, 
+					   const char *host_addr, const char *host_port);
+
 nhpc_status_t nhpc_create_server(const char *host_addr, const char *host_port);
 
 typedef void (*network_addon_ptr_t)(nhpc_connection_t *c);

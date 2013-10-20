@@ -36,7 +36,7 @@ nhpc_status_t nhpc_mutex_destroy(nhpc_mutex_t *mutex);
 
 typedef void *nhpc_thread_value_t(void *arg);
 
-nhpc_status_t nhpc_init_threads(int n, nhpc_size_t);
+nhpc_status_t nhpc_init_threads(nhpc_config_s *config);
 nhpc_status_t nhpc_create_thread(pthread_t *tid, nhpc_thread_value_t func, void *arg);
 void          nhpc_exit_thread();
 #define nhpc_thread_join(t, p) pthread_join(t, p)

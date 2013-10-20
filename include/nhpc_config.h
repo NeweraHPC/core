@@ -19,6 +19,8 @@
 
 struct nhpc_config_s {
    nhpc_int_t     workers;
+   nhpc_int_t     max_threads;
+   nhpc_int_t     max_stack_size;
    nhpc_rbtree_t *options;
    
    nhpc_pool_t   *service_pool;
@@ -33,5 +35,3 @@ static nhpc_rbtree_t *cmdline_arguments;
 #define nhpc_get_cmdline_argument_key(i, key)  (const char *)(nhpc_rbtree_search_inorder_str(cmdline_arguments, i, &key))
 #define nhpc_get_cmdline_argument_count()      (nhpc_get_cmdline_argument_length(cmdline_arguments))
 #define nhpc_insert_cmdline_argument(v, key)   (nhpc_rbtree_insert(cmdline_arguments, v, key))
-
-//void nhpc_init_config(int argc, char **argv);

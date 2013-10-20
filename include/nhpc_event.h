@@ -50,10 +50,10 @@ struct nhpc_event_actions_t {
    nhpc_status_t  (*add)(nhpc_event_t *ev, nhpc_int_t event, nhpc_uint_t flags);
    nhpc_status_t  (*del)(nhpc_event_t *ev, nhpc_int_t event, nhpc_uint_t flags);
             
-   nhpc_status_t  (*process_changes)(nhpc_listening_t *ls);
+   nhpc_status_t  (*process_changes)();
       
-   nhpc_status_t  (*init)(nhpc_listening_t *ls);
-   void           (*done)(nhpc_listening_t *ls);
+   nhpc_status_t  (*init)();
+   void           (*done)();
 };
 extern nhpc_event_actions_t nhpc_event_actions;
 
@@ -61,7 +61,7 @@ extern nhpc_event_actions_t nhpc_event_actions;
 #define nhpc_del_event        nhpc_event_actions.del
 #define nhpc_process_changes  nhpc_event_actions.process_changes
 #define nhpc_done_event       nhpc_event_actions.done
-nhpc_status_t nhpc_init_event(nhpc_listening_t *ls);
+nhpc_status_t nhpc_init_event();
 
 struct nhpc_event_s {
    void                  *data;

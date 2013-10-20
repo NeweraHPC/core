@@ -18,12 +18,29 @@
  */
 
 #include <include/neweraHPC.h>
-using namespace std;
 
 nhpc_worker_pool_t *worker_pool = NULL;
 
 nhpc_worker_t *nhpc_create_worker(nhpc_pool_t *p);
 void          *nhpc_worker_thread(nhpc_worker_t *w);
+
+nhpc_status_t nhpc_init_workers(nhpc_config_t *config) {
+   nhpc_uint_t count = 1;
+   
+   nhpc_str_t *worker_count_str = ( nhpc_str_t * )nhpc_rbtree_search(config->options, "workers");
+   if( worker_count_str ) {
+      count = nhpc_atoi(worker_count_str->data);
+   }
+   nhpc_log_debug0(LOG_LEVEL_DEBUG_4, "DEBUG: Initializing worker pool:%i\n", count);
+   nhpc_log_debug0(LOG_LEVEL_DEBUG_4, "DEBUG: Setting worker pool count:%i\n", count);
+   
+   if( !nhpc_init_worker_pool(config->service_pool, count) ) {
+      nhpc_log_error("ERROR: failed to initialize worker\n");
+      exit(0);
+   }
+   
+   return NHPC_SUCCESS;
+}
 
 void *nhpc_init_worker_pool(nhpc_pool_t *p, nhpc_uint_t count) {
    worker_pool = (nhpc_worker_pool_t *)nhpc_palloc(p, sizeof(nhpc_worker_pool_t) * count);
@@ -32,11 +49,14 @@ void *nhpc_init_worker_pool(nhpc_pool_t *p, nhpc_uint_t count) {
    
    nhpc_worker_t *worker;
    for(int i = 0; i < count; i++) {
-      worker		      = nhpc_create_worker(p);
+      if( !(worker = nhpc_create_worker(p)) )
+	 return NULL;
       worker_pool->workers[i] = worker;
 
       nhpc_insert_queue(worker_pool->workers_queue, worker);
    }
+   
+   return worker_pool;
 }
 
 nhpc_worker_t *nhpc_create_worker(nhpc_pool_t *p) {
@@ -46,7 +66,8 @@ nhpc_worker_t *nhpc_create_worker(nhpc_pool_t *p) {
    pthread_cond_init(&worker->cond, NULL);
    worker->ev = NULL;
    
-   nhpc_create_thread(&worker->tid, (void* (*)(void*))nhpc_worker_thread, worker);
+   if( nhpc_create_thread(&worker->tid, (void* (*)(void*))nhpc_worker_thread, worker) != NHPC_SUCCESS )
+      return NULL;
    
    return worker;
 }

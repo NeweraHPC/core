@@ -40,6 +40,8 @@ w->ev = ev;                          \
 pthread_cond_signal(&w->cond);       \
 pthread_mutex_unlock(&w->mutex);
 
+nhpc_status_t nhpc_init_workers(nhpc_config_t *config);
+
 void *nhpc_init_worker_pool(nhpc_pool_t *p, nhpc_uint_t count);
 static inline void  nhpc_submit_job_worker_pool(nhpc_event_t *ev) {
    nhpc_worker_t *worker = nhpc_get_worker_from_pool();

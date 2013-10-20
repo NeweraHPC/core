@@ -3,5 +3,13 @@ log-file = /var/log/neweraHPC/server.log
 pid-file = /var/run/neweraHPC/server.pid
 verbose = debug6
 
-# Number of Workers, Default 1
+# Number of Workers, 
+# Default: workers = 1
 workers = 4
+
+# Max threads allowed to run in parallel, should be greater than workers 
+# Default: max_threads = 6
+max_threads = 6
+# Max stack size of threads. This value should be calibrated to the kind of application core is being used with.
+# Default: max_stack_size = 40960
+max_stack_size = 40960

@@ -24,44 +24,12 @@ using namespace std;
 nhpc_rbtree_t   *nhpc_posted_events;
 pthread_mutex_t  posted_event_mutex;
 
-nhpc_status_t nhpc_init_event(nhpc_listening_t *ls) {
-   nhpc_rbtree_init(ls->pool, &nhpc_posted_events, RBTREE_NUM_MANAGED);
-
-   nhpc_event_actions.init(ls);
+nhpc_status_t nhpc_init_event() {
+   nhpc_event_actions.init();
 }
 
 void *nhpc_monitor_posted_events(nhpc_listening_t *ls) {
-
-   bool exec_event = false;
-   int event_count;
-   nhpc_event_t *ev;
-   
-   for(;;) {
-      event_count = nhpc_get_posted_event_length();
-      if(!event_count) {
-	 cout << "No event to post" << endl;
-	 continue;
-      }
-      
-      exec_event = false;
-      
-      nhpc_socket_t  *s;
-      
-      for(int i = 1; i <= event_count; i++) {
-	 ev = nhpc_get_posted_event(i);
-	 
-	 s = (nhpc_socket_t *) ev->data;
-	 
-	 if(!ev->available && ev->enabled) {
-	    nhpc_process_changes(ls);
-	    break;
-	 }
-      }
-   }   
 }
 
 void nhpc_init_posted_events(nhpc_listening_t *ls) {
-   pthread_t tid;
-   
-   nhpc_create_thread(&tid, (void* (*)(void*))nhpc_monitor_posted_events, ls);
 }
