@@ -251,3 +251,50 @@ void nhpc_add_str_list(nhpc_str_list_t *list, nhpc_str_t str) {
    memcpy(&list_data->strings[list_data->count], &str, sizeof(nhpc_str_t));
    list_data->count++;
 }
+
+nhpc_str_list_t *nhpc_substr(nhpc_pool_t *pool, const char *src, const char tgt, int count) {
+   nhpc_str_list_t *list;
+   if( count == 0 )
+      list = nhpc_init_str_list(10, pool);
+   else 
+      list = nhpc_init_str_list(count, pool);      
+   
+   int _count = 0;
+   char *new_string ;
+   nhpc_size_t  len = 0;
+   const char  *_src;
+   
+   nhpc_str_t str;
+   
+   do {
+      while( *src == tgt )
+	 src++;
+      _src = src;
+      while( *_src != tgt && *_src != '\0' )
+	 _src++;
+      if( (len = _src - src) > 0 ) {
+	 new_string = ( char * )nhpc_palloc(pool, len + 1);
+	 memcpy(new_string, src, len);
+	 new_string[len] = '\0';
+	 _count++;
+	 
+	 nhpc_str_set(&str, new_string);
+	 nhpc_add_str_list(list, str);
+      }
+      src = _src;
+   }while( ( count == 0 || _count < count ) && *_src != '\0');
+   
+   return list;
+}
+
+nhpc_str_t *nhpc_get_str_list(nhpc_str_list_t *list, nhpc_uint_t n) {
+   int count = n / list->max;
+   nhpc_str_list_data_t *data = &list->d;
+   
+   for( int i = 0; i < count && data; i++ )
+      data = data->next;
+   if( data && (count = n - (count * list->max)) < data->count )
+      return &(data->strings[count]);
+   else 
+      return NULL;
+}

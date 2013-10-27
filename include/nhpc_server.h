@@ -35,7 +35,7 @@ struct nhpc_network_handler_t
 };
 
 extern nhpc_rbtree_t *network_addons;
-#define nhpc_network_insert_addon(d, k)   (nhpc_rbtree_insert(network_addons, (void *)d, (const char *)k))
-#define nhpc_network_search_addon(k)      ((nhpc_event_handler_ptr)nhpc_rbtree_search(network_addons, k))
+#define nhpc_network_insert_addon(ls, d, k)   (nhpc_rbtree_insert(ls->network_addons, ( void * )d, ( const char * )k))
+#define nhpc_network_search_addon(ls, k)      (( nhpc_event_handler_ptr )nhpc_rbtree_search(ls->network_addons, k))
 
 #endif

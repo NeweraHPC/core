@@ -26,7 +26,7 @@ nhpc_event_actions_t nhpc_event_actions = {
    nhpc_event_kqueue_del_event,
    nhpc_event_kqueue_process_changes,
    nhpc_event_kqueue_init,
-   nhpc_event_kqueue_done,
+   nhpc_event_kqueue_done
 };
 
 int kq;
@@ -45,12 +45,12 @@ nhpc_status_t nhpc_event_kqueue_set_event(nhpc_event_t *ev, nhpc_int_t filter, n
    nhpc_connection_t *c;
    
    if(nchanges >= maxevents) {
-      //LOG_ERROR("Event list full");
+      nhpc_log_error("ERROR:", " kqueue list full\n");
       return NHPC_FAIL;
    }
    
    kev = &changelist[nchanges];
-   c   = (nhpc_connection_t *)ev->data;
+   c   = ( nhpc_connection_t * )ev->data;
    
    kev->ident  = c->socket.fd;
    kev->filter = filter;
@@ -117,6 +117,7 @@ void *nhpc_event_kqueue_exec(void *data) {
 }
 
 nhpc_status_t nhpc_event_kqueue_process_changes(nhpc_listening_t *ls) {
+   /*
    int    rv;
    struct timespec timedout = {0, 100 * 1000000};
    
@@ -155,6 +156,7 @@ nhpc_status_t nhpc_event_kqueue_process_changes(nhpc_listening_t *ls) {
 	 }
       }
    }
+    */
 }
 
 nhpc_status_t nhpc_event_kqueue_init() {
@@ -192,7 +194,7 @@ nhpc_status_t nhpc_event_kqueue_init() {
     */
 }
 
-void nhpc_event_kqueue_done(nhpc_listening_t *ls) {
+nhpc_status_t nhpc_event_kqueue_done(nhpc_listening_t *ls) {
    
 }
 

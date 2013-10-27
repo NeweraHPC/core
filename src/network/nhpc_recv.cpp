@@ -28,8 +28,10 @@ struct timeval tv;
 struct timespec ts;
 
 nhpc_status_t nhpc_recv(nhpc_connection_t *c, char *buffer, nhpc_size_t *len) {
+   /*
    if(c->rev->eof)
       return NHPC_EOF;
+    */
    
    int   rv;
    char *tmp_buffer = buffer;
@@ -46,7 +48,7 @@ nhpc_status_t nhpc_recv(nhpc_connection_t *c, char *buffer, nhpc_size_t *len) {
    *len = (*len - tmp_len);
    
    if(rv == 0) {
-      c->rev->eof = 1;
+      //c->rev->eof = 1;
       
       return NHPC_EOF;
    } else if(rv == -1) {

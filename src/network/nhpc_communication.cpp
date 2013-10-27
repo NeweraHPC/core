@@ -44,17 +44,19 @@ void nhpc_communication_handler(nhpc_event_t *ev) {
    
    nrv = nhpc_read_communication(c, buffer, len, &partial_data, &partial_datalen);
    if(nrv != NHPC_SUCCESS) {
+      /*
       if(c->rev->eof) {
 	 nhpc_accept_close_connection(c);
 	 return;
       } else if(!c->communication->command_str)
 	 return;
+       */
    }
    
    communication = c->communication;   
    
    if(communication->have_headers) {
-      handler       = nhpc_network_search_addon(communication->command_str);
+      //handler       = nhpc_network_search_addon(communication->command_str);
    
       if(!handler) {
 	 nhpc_log_error("ERROR: %s\n", "communication_handler() failed, no suitable network addon found");

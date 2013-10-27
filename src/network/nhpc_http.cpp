@@ -26,6 +26,6 @@ nhpc_status_t nhpc_init_http() {
    
    http_root_strlen = strlen(HTTP_ROOT);
    
-   nhpc_network_insert_addon(nhpc_http_handler, "GET*HTTP/1.1");
-   nhpc_network_insert_addon(nhpc_http_handler, "GET*HTTP/1.0");
+   //nhpc_network_insert_addon(nhpc_http_handler, "GET*HTTP/1.1");
+   //nhpc_network_insert_addon(nhpc_http_handler, "GET*HTTP/1.0");
 }

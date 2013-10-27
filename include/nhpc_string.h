@@ -71,8 +71,11 @@ struct nhpc_str_list_t {
    nhpc_str_list_data_t  *current;
 };
 
-nhpc_str_list_t *nhpc_init_str_list(nhpc_uint_t size, nhpc_pool_t *pool = NULL);
-void             nhpc_destroy_str_list(nhpc_str_list_t *list);
-void nhpc_add_str_list(nhpc_str_list_t *list, nhpc_str_t str);
+nhpc_str_list_t	  *nhpc_init_str_list(nhpc_uint_t size, nhpc_pool_t *pool = NULL);
+void		   nhpc_destroy_str_list(nhpc_str_list_t *list);
+void		   nhpc_add_str_list(nhpc_str_list_t *list, nhpc_str_t str);
+nhpc_str_t        *nhpc_get_str_list(nhpc_str_list_t *list, nhpc_uint_t n);
+
+nhpc_str_list_t *nhpc_substr(nhpc_pool_t *pool, const char *src, const char tgt, int count = 0);
 
 #endif

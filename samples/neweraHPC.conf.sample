@@ -13,3 +13,9 @@ max_threads = 6
 # Max stack size of threads. This value should be calibrated to the kind of application core is being used with.
 # Default: max_stack_size = 40960
 max_stack_size = 40960
+
+# Max connection backlog
+# Default: connection_backlog = 512
+connection_backlog = 511
+
+

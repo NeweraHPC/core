@@ -24,7 +24,8 @@
 
 #include "neweraHPC.h"
 
-#define CONNECTION_BACKLOG 551
+//#define CONNECTION_BACKLOG 551
+static int connection_backlog = 551;
 #define BUFFER_SIZE        10000
 
 #define NHPC_BUFFER_EMPTY  0
@@ -49,8 +50,8 @@ struct nhpc_connection_s {
    nhpc_peer_addr_t        peer;
    
    nhpc_listening_t       *ls;
-   nhpc_event_t           *rev;
-   nhpc_event_t           *wev;
+   nhpc_event_t            rev;
+   nhpc_event_t            wev;
    
    nhpc_pool_t            *pool;
    
@@ -62,13 +63,13 @@ struct nhpc_listening_s {
    nhpc_peer_addr_t    host;   
 
    nhpc_pool_t        *pool;
-   
-   
-   nhpc_queue_t       *connections_queue;
+      
    nhpc_stack_t       *connections_stack;
-   nhpc_connection_t  *connections;
    nhpc_int_t          nconnections;
-   nhpc_event_t       *events;
+   
+   nhpc_event_t        lsev;
+   
+   nhpc_rbtree_t      *network_addons;
 
    int                 backlog;
 };
@@ -79,6 +80,8 @@ void nhpc_get_addr_info(nhpc_connection_t *c);
 
 void nhpc_init_listening(nhpc_listening_t *ls);
 void nhpc_destroy_listeneing(nhpc_listening_t *ls);
+
+nhpc_status_t nhpc_init_connections(nhpc_config_t *config);
 
 void nhpc_init_connection(nhpc_connection_t *c);
 void nhpc_destroy_connection(nhpc_connection_t *c);

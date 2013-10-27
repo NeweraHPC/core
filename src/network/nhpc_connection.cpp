@@ -24,6 +24,19 @@
 
 using namespace std;
 
+nhpc_event_t      *events;
+nhpc_connection_t *connections;
+
+nhpc_status_t nhpc_init_connections(nhpc_config_t *config) {
+   nhpc_str_t *connection_backlog_str = ( nhpc_str_t * )nhpc_rbtree_search(config->options, "connection_backlog");
+   if( connection_backlog_str )
+      connection_backlog = nhpc_atoi(connection_backlog_str->data);
+
+   nhpc_log_debug0(LOG_LEVEL_DEBUG_4, "DEBUG: Setting connection backlog to %i\n", connection_backlog);
+   
+   return NHPC_SUCCESS;
+}
+
 void nhpc_init_connection(nhpc_connection_t *c) {
    
 }
@@ -34,60 +47,14 @@ void nhpc_destroy_connection(nhpc_connection_t *c) {
 
 void nhpc_shutdown_connection(nhpc_connection_t *c, int how) {
 
-   if(how == SHUT_RD || how == SHUT_RDWR) {
-      if(c->rev->enabled)
-	 nhpc_del_event(c->rev, NHPC_READ_EVENT, NHPC_DELETE_EVENT);
-      
-      shutdown(c->socket.fd, SHUT_RD);      
-   }
-   
-   if(how == SHUT_WR || how == SHUT_RDWR) {      
-      if(c->wev->enabled)
-	 nhpc_del_event(c->wev, NHPC_WRITE_EVENT, NHPC_DELETE_EVENT);
-      
-      shutdown(c->socket.fd, SHUT_WR);
-   }
 }
 
 void nhpc_close_connection(nhpc_connection_t *c) {
-   if(c->rev->enabled)
-      nhpc_del_event(c->rev, NHPC_READ_EVENT, NHPC_CLOSE_EVENT);
-   if(c->wev->enabled)
-      nhpc_del_event(c->wev, NHPC_WRITE_EVENT, NHPC_CLOSE_EVENT);
 
-   close(c->socket.fd);
 }
 
 void nhpc_init_listening(nhpc_listening_t *ls) {
-   ls->nconnections = CONNECTION_BACKLOG;
-   ls->connections  = (nhpc_connection_t *)nhpc_calloc(sizeof(nhpc_connection_t) * ls->nconnections);
-   ls->events       = (nhpc_event_t *)nhpc_calloc(sizeof(nhpc_event_t) * (ls->nconnections * 2 + 1));
 
-   //ls->connections_queue = nhpc_init_queue(CONNECTION_BACKLOG);
-   
-   ls->pool = nhpc_create_pool(1);
-   ls->connections_stack = nhpc_init_stack(CONNECTION_BACKLOG, ls->pool);
-   
-   nhpc_event_t *rev, *wev;
-   
-   for(int i = 0; i < CONNECTION_BACKLOG; i++) {
-      rev = &ls->events[2 * i + 1];
-      wev = &ls->events[2 * i + 2];
-      
-      rev->data = &ls->connections[i];
-      rev->instance = 1;
-
-      wev->data = &ls->connections[i];
-      wev->instance = 1;
-      wev->write    = 1;
-      
-      ls->connections[i].rev = rev;
-      ls->connections[i].wev = wev;      
-      ls->connections[i].ls  = ls;
-
-      nhpc_push_stack(ls->connections_stack, &ls->connections[i]);
-      //nhpc_insert_queue(ls->connections_queue, &ls->connections[i]);
-   }
 }
 
 void nhpc_destroy_listening(nhpc_listening_t *ls) {
@@ -98,4 +65,3 @@ void nhpc_get_addr_info(nhpc_connection_t *c) {
    nhpc_strcpy(c->peer.addr, inet_ntoa(c->socket.sa_in.sin_addr));
    nhpc_itoa(c->peer.port, ntohs(c->socket.sa_in.sin_port));
 }
-

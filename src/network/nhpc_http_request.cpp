@@ -125,8 +125,8 @@ void nhpc_http_handler(nhpc_event_t *ev) {
    nhpc_http_prepare_response(http_request);
 
    nhpc_shutdown_connection(c, SHUT_RD);
-   nhpc_add_event(c->wev, NHPC_WRITE_EVENT, 0);
-   c->wev->handler = nhpc_http_write_handler;
+   //nhpc_add_event(c->wev, NHPC_WRITE_EVENT, 0);
+   //c->wev->handler = nhpc_http_write_handler;
 }
 
 void nhpc_http_write_handler(nhpc_event_t *ev) {

@@ -22,7 +22,7 @@
 #include <include/neweraHPC.h>
 
 nhpc_status_t nhpc_send(nhpc_connection_t *c, char *buffer, nhpc_size_t *len) {
-   if(c->wev->eof)
+   //if(c->wev->eof)
       return NHPC_EOF;
    
    int   rv;
@@ -40,7 +40,7 @@ nhpc_status_t nhpc_send(nhpc_connection_t *c, char *buffer, nhpc_size_t *len) {
    *len = *len - tmp_len;
    
    if(rv == 0) {
-      c->wev->eof = 1;
+      //c->wev->eof = 1;
 
       return NHPC_EOF;
    }

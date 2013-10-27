@@ -21,8 +21,6 @@
 
 #include <include/neweraHPC.h>
 
-using namespace std;
-
 int main(int argc, char **argv)
 {
    nhpc_status_t nrv;
@@ -36,20 +34,10 @@ int main(int argc, char **argv)
       return 1;
    if( nhpc_init_workers(main_config) != NHPC_SUCCESS )
       return 1;
+   if( nhpc_init_connections(main_config) != NHPC_SUCCESS )
+      return 1;
    
    nhpc_listening_t *listener;
    if( nhpc_create_listening_server(&listener, main_config, "localhost", "8080") != NHPC_SUCCESS )
       return 1;
-   
-   /*
-   nhpc_init_network();
-   nhpc_init_http();
-   if((nrv = nhpc_create_server("0.0.0.0", "8080")) != NHPC_SUCCESS)
-      perror("nhpc_create_server");
-   
-   while(1)
-      sleep(1);
-
-   pthread_t tid;   
-    */
 }

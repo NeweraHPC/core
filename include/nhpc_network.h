@@ -38,6 +38,7 @@ typedef void (*nhpc_connection_handler_ptr)(nhpc_connection_t *c);
 
 #include "nhpc_headers.h"
 #include "nhpc_socket.h"
+#include "nhpc_event.h"
 #include "nhpc_connection.h"
 #include "nhpc_server.h"
 #include "nhpc_waitio.h"
@@ -45,7 +46,6 @@ typedef void (*nhpc_connection_handler_ptr)(nhpc_connection_t *c);
 #include "nhpc_communication.h"
 #include "nhpc_send.h"
 #include "nhpc_recv.h"
-#include "nhpc_event.h"
 #include "nhpc_worker.h"
 #include "nhpc_accept.h"
 #include "nhpc_process_cycle.h"

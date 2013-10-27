@@ -33,7 +33,7 @@
 nhpc_status_t nhpc_event_kqueue_add_event(nhpc_event_t *ev, nhpc_int_t event, nhpc_uint_t flags);
 nhpc_status_t nhpc_event_kqueue_del_event(nhpc_event_t *ev, nhpc_int_t event, nhpc_uint_t flags);
 
-nhpc_status_t nhpc_event_kqueue_process_changes();
+nhpc_status_t nhpc_event_kqueue_process_changes(nhpc_listening_t *listener);
 
 nhpc_status_t nhpc_event_kqueue_init();
-void          nhpc_event_kqueue_done();
+nhpc_status_t nhpc_event_kqueue_done(nhpc_listening_t *listener);

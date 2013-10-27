@@ -50,10 +50,10 @@ struct nhpc_event_actions_t {
    nhpc_status_t  (*add)(nhpc_event_t *ev, nhpc_int_t event, nhpc_uint_t flags);
    nhpc_status_t  (*del)(nhpc_event_t *ev, nhpc_int_t event, nhpc_uint_t flags);
             
-   nhpc_status_t  (*process_changes)();
+   nhpc_status_t  (*process_changes)(nhpc_listening_t *listener);
       
    nhpc_status_t  (*init)();
-   void           (*done)();
+   nhpc_status_t  (*done)(nhpc_listening_t *listener);
 };
 extern nhpc_event_actions_t nhpc_event_actions;
 
@@ -68,8 +68,6 @@ struct nhpc_event_s {
    nhpc_status_t          status;
    
    nhpc_int_t             index;     
-   
-   unsigned               instance:1;
    
    unsigned               write:1;
    unsigned               accept:1;

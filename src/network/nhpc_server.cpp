@@ -21,11 +21,6 @@
 
 #include <include/neweraHPC.h>
 
-/*
-nhpc_listening_t  *ls;
-nhpc_rbtree_t     *network_addons;
- */
- 
 nhpc_status_t nhpc_create_listening_server(nhpc_listening_t **listener, nhpc_config_t *config, 
 					   const char *host_addr, const char *host_port) {
    nhpc_status_t     nrv;
@@ -54,7 +49,7 @@ nhpc_status_t nhpc_create_listening_server(nhpc_listening_t **listener, nhpc_con
       return nrv;
    }
    
-   if( (nrv = nhpc_listen_socket(&_listener->socket, CONNECTION_BACKLOG)) != NHPC_SUCCESS) {
+   if( (nrv = nhpc_listen_socket(&_listener->socket, connection_backlog)) != NHPC_SUCCESS) {
       nhpc_log_error("ERROR: unable to listen socket: %s\n", strerror(errno));
       return nrv;
    }
@@ -63,51 +58,9 @@ nhpc_status_t nhpc_create_listening_server(nhpc_listening_t **listener, nhpc_con
    return NHPC_SUCCESS;
 }
 
-/*
-nhpc_status_t nhpc_create_server(const char *host_addr, const char *host_port) {
-   nhpc_status_t nrv;
-   pthread_t read_event;
-   pthread_t write_event;
-   
-   ls = (nhpc_listening_t *)nhpc_alloc(sizeof(nhpc_listening_t));
-   
-   if((nrv = nhpc_create_socket(&ls->socket, AF_INET, SOCK_STREAM, 0)) != NHPC_SUCCESS)
-   {
-      nhpc_log_error("ERROR: %s\n", "socket() failed");
-      return nrv;
-   }
-   
-   if((nrv = nhpc_set_socket_opt(&ls->socket, NHPC_NONBLOCK, 1)) != NHPC_SUCCESS)
-   {
-      nhpc_log_error("ERROR %s\n", "socket_opt() failed");
-      return nrv;
-   }
-   
-   int enable_opts = 1;
-   if((nrv = setsockopt(ls->socket.fd, SOL_SOCKET, SO_REUSEADDR, &enable_opts, sizeof(int))) == -1)
-   {
-      return errno;
-   }   
-   
-   if((nrv = nhpc_bind_socket(&ls->socket, host_addr, host_port)) != NHPC_SUCCESS)
-   {
-      nhpc_log_error("ERROR: %s\n", "socket_bind() failed");
-      return nrv;
-   }
-   
-   if((nrv = nhpc_listen_socket(&ls->socket, CONNECTION_BACKLOG)) != NHPC_SUCCESS)
-   {
-      nhpc_log_error("ERROR: %s\n", "socket_listen() failed");
-      return nrv;
-   }
-   
-   nhpc_init_listening(ls);
-   nhpc_init_event(ls);
-   nhpc_init_posted_events(ls);
-   
-   return NHPC_SUCCESS;
+nhpc_status_t nhpc_register_listening_server(nhpc_listening_t *listener) {
+   nhpc_add_event(&listener->lsev, NHPC_READ_EVENT, 0);
 }
- */
 
 void *nhpc_handle_connection(nhpc_connection_t *c) {
    nhpc_exit_thread();

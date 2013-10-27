@@ -22,6 +22,7 @@
 using namespace std;
 
 void nhpc_accept_event(nhpc_event_t *ev) {
+   /*
    nhpc_listening_t  *ls = (nhpc_listening_t *)ev->data;
    nhpc_connection_t *c;
 
@@ -56,5 +57,6 @@ void nhpc_accept_event(nhpc_event_t *ev) {
 #endif
       
    } while (ev->available > 0);
+    */
 }
 
