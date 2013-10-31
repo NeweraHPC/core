@@ -20,8 +20,6 @@
 #ifndef _NHPC_RECV_H_
 #define _NHPC_RECV_H_
 
-#include <include/neweraHPC.h>
-
 nhpc_status_t nhpc_recv(nhpc_connection_t *c, char *buffer, nhpc_size_t *len);
 
 #endif

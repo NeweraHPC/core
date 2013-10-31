@@ -252,7 +252,7 @@ void nhpc_add_str_list(nhpc_str_list_t *list, nhpc_str_t str) {
    list_data->count++;
 }
 
-nhpc_str_list_t *nhpc_substr(nhpc_pool_t *pool, const char *src, const char tgt, int count) {
+nhpc_str_list_t *nhpc_substr(nhpc_pool_t *pool, const char *src, const char tgt, bool ignore_empty, int count) {
    nhpc_str_list_t *list;
    if( count == 0 )
       list = nhpc_init_str_list(10, pool);
@@ -267,8 +267,10 @@ nhpc_str_list_t *nhpc_substr(nhpc_pool_t *pool, const char *src, const char tgt,
    nhpc_str_t str;
    
    do {
-      while( *src == tgt )
-	 src++;
+      if( !ignore_empty ) {
+	 while( *src == tgt )
+	    src++;
+      }
       _src = src;
       while( *_src != tgt && *_src != '\0' )
 	 _src++;
@@ -280,6 +282,10 @@ nhpc_str_list_t *nhpc_substr(nhpc_pool_t *pool, const char *src, const char tgt,
 	 
 	 nhpc_str_set(&str, new_string);
 	 nhpc_add_str_list(list, str);
+      }
+      else if( *_src != '\0' ) {
+	 nhpc_add_str_list(list, nhpc_str_empty);
+	 _src++;
       }
       src = _src;
    }while( ( count == 0 || _count < count ) && *_src != '\0');
